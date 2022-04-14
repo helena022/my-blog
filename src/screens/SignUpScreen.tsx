@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParams } from '../navigation/AuthStack';
@@ -12,10 +12,17 @@ const SignUpScreen = () => {
   };
   return (
     <SafeAreaView style={styles.screenContainer}>
-      <Text>Sign Up Screen</Text>
-      <TouchableOpacity onPress={goToSignIn}>
-        <Text>Already have an account? Sign In</Text>
-      </TouchableOpacity>
+      <View style={styles.authContainer}>
+        <View style={styles.authInputContainer}>
+          <Text>Sign Up Screen</Text>
+          <Text>Sign Up Inputs & Button</Text>
+        </View>
+        <View style={styles.authNavContainer}>
+          <TouchableOpacity onPress={goToSignIn}>
+            <Text>Already have an account? Sign In</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
