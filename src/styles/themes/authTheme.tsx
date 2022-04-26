@@ -8,6 +8,7 @@ export const authTheme = createTheme({
       letterSpacing: 0.5,
     },
     h1Style: {
+      color: defaultColors.white,
       fontSize: 52,
       fontWeight: '500',
       textAlign: 'center',
@@ -17,6 +18,7 @@ export const authTheme = createTheme({
       textShadowRadius: 3,
     },
     h2Style: {
+      color: defaultColors.white,
       fontSize: 42,
       fontWeight: '500',
       textAlign: 'center',
@@ -34,6 +36,11 @@ export const authTheme = createTheme({
     placeholderTextColor: defaultColors.lightGrey,
     inputContainerStyle: {
       borderBottomWidth: 2,
+    },
+    leftIcon: {
+      iconStyle: {
+        color: defaultColors.lightestGrey,
+      },
     },
   },
   Button: {

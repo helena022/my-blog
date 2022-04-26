@@ -21,6 +21,9 @@ target 'MyBlog' do
 
 
 
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'MyBlogTests' do
     inherit! :complete
     # Pods for testing

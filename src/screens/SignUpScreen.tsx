@@ -21,8 +21,17 @@ const SignUpScreen = () => {
           <View style={auth.authInputContainer}>
             <Text h2>Create A New Account</Text>
             <View>
-              <Input autoComplete="email" placeholder="Email" />
-              <Input placeholder="Password" autoComplete="password-new" secureTextEntry={true} />
+              <Input
+                leftIcon={{ type: 'material', name: 'person' }}
+                placeholder="Email"
+                autoComplete="email"
+              />
+              <Input
+                leftIcon={{ type: 'material', name: 'lock' }}
+                placeholder="Password"
+                autoComplete="password-new"
+                secureTextEntry={true}
+              />
             </View>
             <Button title={'Sign Up'} />
           </View>
