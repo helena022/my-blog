@@ -1,28 +1,38 @@
 import React from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParams } from '../navigation/AuthStack';
-import { styles } from '../styles/shared';
+import { SafeAreaView, View, TouchableOpacity, ImageBackground } from 'react-native';
+import { Button, Input, Text } from '@rneui/themed';
+import { auth } from '../styles/auth';
+
+const backgroundImage = '../assets/images/auth_background.jpg';
 
 const SignUpScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackParams>>();
   const goToSignIn = () => {
     navigation.navigate('SignInScreen');
   };
+
   return (
-    <SafeAreaView style={styles.screenContainer}>
-      <View style={styles.authContainer}>
-        <View style={styles.authInputContainer}>
-          <Text>Sign Up Screen</Text>
-          <Text>Sign Up Inputs & Button</Text>
+    <SafeAreaView style={auth.screenContainer}>
+      <ImageBackground source={require(backgroundImage)} resizeMode={'stretch'} style={{ flex: 1 }}>
+        <View style={auth.authContainer}>
+          <View style={auth.authInputContainer}>
+            <Text h2>Create A New Account</Text>
+            <View>
+              <Input autoComplete="email" placeholder="Email" />
+              <Input placeholder="Password" autoComplete="password-new" secureTextEntry={true} />
+            </View>
+            <Button title={'Sign Up'} />
+          </View>
+          <View style={auth.authNavContainer}>
+            <TouchableOpacity onPress={goToSignIn}>
+              <Text>Already have an account? Sign In</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.authNavContainer}>
-          <TouchableOpacity onPress={goToSignIn}>
-            <Text>Already have an account? Sign In</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
