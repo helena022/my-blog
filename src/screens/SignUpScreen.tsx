@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParams } from '../navigation/AuthStack';
@@ -9,6 +9,10 @@ import { auth } from '../styles/auth';
 const backgroundImage = '../assets/images/auth_background.jpg';
 
 const SignUpScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatedPassword, setRepeatedPassword] = useState('');
+
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackParams>>();
   const goToSignIn = () => {
     navigation.navigate('SignInScreen');
@@ -22,21 +26,27 @@ const SignUpScreen = () => {
             <Text h2>Create A New Account</Text>
             <View>
               <Input
+                value={email}
                 leftIcon={{ type: 'material', name: 'person-outline' }}
                 placeholder="Email"
                 autoComplete="email"
+                onChangeText={(input) => setEmail(input)}
               />
               <Input
+                value={password}
                 leftIcon={{ type: 'material', name: 'lock-outline' }}
                 placeholder="Password"
                 autoComplete="password-new"
                 secureTextEntry={true}
+                onChangeText={(input) => setPassword(input)}
               />
               <Input
+                value={repeatedPassword}
                 leftIcon={{ type: 'material', name: 'lock-outline' }}
                 placeholder="Confirm Password"
                 autoComplete="password-new"
                 secureTextEntry={true}
+                onChangeText={(input) => setRepeatedPassword(input)}
               />
             </View>
             <Button title={'Sign Up'} />
