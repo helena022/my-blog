@@ -32,6 +32,12 @@ const SignUpScreen = () => {
                 autoComplete="password-new"
                 secureTextEntry={true}
               />
+              <Input
+                leftIcon={{ type: 'material', name: 'lock-outline' }}
+                placeholder="Confirm Password"
+                autoComplete="password-new"
+                secureTextEntry={true}
+              />
             </View>
             <Button title={'Sign Up'} />
           </View>
