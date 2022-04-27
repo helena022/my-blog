@@ -22,12 +22,12 @@ const SignUpScreen = () => {
             <Text h2>Create A New Account</Text>
             <View>
               <Input
-                leftIcon={{ type: 'material', name: 'person' }}
+                leftIcon={{ type: 'material', name: 'person-outline' }}
                 placeholder="Email"
                 autoComplete="email"
               />
               <Input
-                leftIcon={{ type: 'material', name: 'lock' }}
+                leftIcon={{ type: 'material', name: 'lock-outline' }}
                 placeholder="Password"
                 autoComplete="password-new"
                 secureTextEntry={true}

@@ -20,12 +20,12 @@ const SignInScreen = () => {
           <View style={auth.authInputContainer}>
             <Text h1>&#8212; My Blog &#8212;</Text>
             <Input
-              leftIcon={{ type: 'material', name: 'person' }}
+              leftIcon={{ type: 'material', name: 'person-outline' }}
               placeholder="Email"
               autoComplete="email"
             />
             <Input
-              leftIcon={{ type: 'material', name: 'lock' }}
+              leftIcon={{ type: 'material', name: 'lock-outline' }}
               placeholder="Password"
               autoComplete="password"
               secureTextEntry={true}
