@@ -4,18 +4,114 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParams } from '../navigation/AuthStack';
 import { SafeAreaView, View, TouchableOpacity, ImageBackground } from 'react-native';
 import { Button, Input, Text } from '@rneui/themed';
+import {
+  hasValue,
+  isEmailValid,
+  isBetween,
+  isPasswordSecure,
+  valuesMatch,
+} from '../utils/validations';
 import { auth } from '../styles/auth';
 
 const backgroundImage = '../assets/images/auth_background.jpg';
+
+const errors = {
+  isRequired: 'This field is required',
+  invalidEmail: 'Email must be valid',
+  passwordTooShort: 'Password must contain at least 8 characters',
+  passwordNotSecure:
+    'Password must contain at least 1 lowercase character, 1 uppercase character, 1 number and 1 special character (!@#$%^&*)',
+  passwordsDontMatch: 'Passwords must match',
+};
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
 
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  const [repPasswordErrorMessage, setRepPasswordErrorMessage] = useState('');
+
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackParams>>();
   const goToSignIn = () => {
     navigation.navigate('SignInScreen');
+  };
+
+  const handleEmailChange = (input: string) => {
+    if (emailErrorMessage) {
+      setEmailErrorMessage('');
+    }
+    setEmail(input);
+  };
+
+  const handlePasswordChange = (input: string) => {
+    if (passwordErrorMessage) {
+      setPasswordErrorMessage('');
+    }
+    setPassword(input);
+  };
+
+  const handleRepPasswordChange = (input: string) => {
+    if (repPasswordErrorMessage) {
+      setRepPasswordErrorMessage('');
+    }
+    setRepeatedPassword(input);
+  };
+
+  const handleSignUp = () => {
+    isEmailInputValid();
+    isPasswordInputValid();
+    isRepPasswordInputValid();
+
+    const isFormValid: boolean =
+      isEmailInputValid() && isPasswordInputValid() && isRepPasswordInputValid();
+    if (isFormValid) {
+      console.log('valid sign in');
+    } else {
+      console.log('invalid sign in');
+    }
+  };
+
+  const isEmailInputValid = (): boolean => {
+    let isValid = false;
+    if (!hasValue(email)) {
+      setEmailErrorMessage(errors.isRequired);
+    } else if (!isEmailValid(email)) {
+      setEmailErrorMessage(errors.invalidEmail);
+    } else {
+      setEmailErrorMessage('');
+      isValid = true;
+    }
+    return isValid;
+  };
+
+  const isPasswordInputValid = (): boolean => {
+    let isValid = false;
+    if (!hasValue(password)) {
+      setPasswordErrorMessage(errors.isRequired);
+    } else if (!isBetween(password.length, 1, 8)) {
+      setPasswordErrorMessage(errors.passwordTooShort);
+    } else if (!isPasswordSecure(password)) {
+      setPasswordErrorMessage(errors.passwordNotSecure);
+    } else {
+      setPasswordErrorMessage('');
+      isValid = true;
+    }
+    return isValid;
+  };
+
+  const isRepPasswordInputValid = (): boolean => {
+    let isValid = false;
+    if (!hasValue(password)) {
+      setRepPasswordErrorMessage(errors.isRequired);
+    } else if (!valuesMatch(password, repeatedPassword)) {
+      setRepPasswordErrorMessage(errors.passwordsDontMatch);
+    } else {
+      setRepPasswordErrorMessage('');
+      isValid = true;
+    }
+    return isValid;
   };
 
   return (
@@ -30,7 +126,8 @@ const SignUpScreen = () => {
                 leftIcon={{ type: 'material', name: 'person-outline' }}
                 placeholder="Email"
                 autoComplete="email"
-                onChangeText={(input) => setEmail(input)}
+                errorMessage={emailErrorMessage}
+                onChangeText={(input) => handleEmailChange(input)}
               />
               <Input
                 value={password}
@@ -38,7 +135,8 @@ const SignUpScreen = () => {
                 placeholder="Password"
                 autoComplete="password-new"
                 secureTextEntry={true}
-                onChangeText={(input) => setPassword(input)}
+                errorMessage={passwordErrorMessage}
+                onChangeText={(input) => handlePasswordChange(input)}
               />
               <Input
                 value={repeatedPassword}
@@ -46,10 +144,11 @@ const SignUpScreen = () => {
                 placeholder="Confirm Password"
                 autoComplete="password-new"
                 secureTextEntry={true}
-                onChangeText={(input) => setRepeatedPassword(input)}
+                errorMessage={repPasswordErrorMessage}
+                onChangeText={(input) => handleRepPasswordChange(input)}
               />
             </View>
-            <Button title={'Sign Up'} />
+            <Button title={'Sign Up'} onPress={handleSignUp} />
           </View>
           <View style={auth.authNavContainer}>
             <TouchableOpacity onPress={goToSignIn}>
