@@ -3,8 +3,6 @@ import { defaultColors } from '../utils/colors';
 
 export const auth = StyleSheet.create({
   screenContainer: { flex: 1 },
-
-  // authentication stack
   authContainer: {
     flex: 1,
     alignItems: 'center',
@@ -24,5 +22,14 @@ export const auth = StyleSheet.create({
   passwordResetLink: {
     color: defaultColors.primary,
     textAlign: 'center',
+  },
+  dialogTitle: {
+    color: defaultColors.black,
+  },
+  dialogText: {
+    color: defaultColors.black,
+  },
+  dialogButton: {
+    color: defaultColors.primary,
   },
 });

@@ -3,7 +3,8 @@ import { useNavigation } from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParams } from '../navigation/AuthStack';
 import { SafeAreaView, View, TouchableOpacity, ImageBackground } from 'react-native';
-import { Button, Input, Text } from '@rneui/themed';
+import { Button, Input, Text, Dialog } from '@rneui/themed';
+import { supabase } from '../api/supabase';
 import {
   hasValue,
   isEmailValid,
@@ -25,6 +26,11 @@ const errors = {
 };
 
 const SignUpScreen = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(true);
+  const [dialogErrorMessage, setDialogErrorMessage] = useState('');
+  console.log(dialogErrorMessage);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
@@ -59,17 +65,25 @@ const SignUpScreen = () => {
     setRepeatedPassword(input);
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     isEmailInputValid();
     isPasswordInputValid();
     isRepPasswordInputValid();
 
-    const isFormValid: boolean =
-      isEmailInputValid() && isPasswordInputValid() && isRepPasswordInputValid();
+    const isFormValid = true;
+    // TODO remove hardcoded value
+    //isEmailInputValid() && isPasswordInputValid() && isRepPasswordInputValid();
     if (isFormValid) {
-      console.log('valid sign in');
-    } else {
-      console.log('invalid sign in');
+      try {
+        setIsLoading(true);
+        const { error } = await supabase.auth.signUp({ email, password });
+        if (error) throw error;
+      } catch (error) {
+        setIsErrorDialogVisible(true);
+        setDialogErrorMessage(error.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -148,7 +162,18 @@ const SignUpScreen = () => {
                 onChangeText={(input) => handleRepPasswordChange(input)}
               />
             </View>
-            <Button title={'Sign Up'} onPress={handleSignUp} />
+            <Button title={'Sign Up'} onPress={handleSignUp} loading={isLoading} />
+            <Dialog isVisible={isErrorDialogVisible}>
+              <Dialog.Title title="Error" titleStyle={auth.dialogTitle} />
+              <Text style={auth.dialogText}>{dialogErrorMessage}</Text>
+              <Dialog.Actions>
+                <Dialog.Button
+                  title="Ok"
+                  titleStyle={auth.dialogButton}
+                  onPress={() => setIsErrorDialogVisible(false)}
+                />
+              </Dialog.Actions>
+            </Dialog>
           </View>
           <View style={auth.authNavContainer}>
             <TouchableOpacity onPress={goToSignIn}>
