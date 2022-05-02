@@ -27,7 +27,7 @@ const errors = {
 
 const SignUpScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(true);
+  const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(false);
   const [dialogErrorMessage, setDialogErrorMessage] = useState('');
   console.log(dialogErrorMessage);
 
