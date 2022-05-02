@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { supabase } from '../api/supabase';
+import { Text, ToastAndroid, View } from 'react-native';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import {
   createDrawerNavigator,
@@ -14,9 +15,17 @@ import MyBlogScreen from '../screens/MyBlogScreen';
 
 function CustomDrawerContent(props) {
   const navigation = useNavigation();
-  const LogoutUser = () => {
+  const LogoutUser = async () => {
     navigation.dispatch(DrawerActions.closeDrawer());
-    // TODO logout
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // TODO toast for ios
+      ToastAndroid.show('Signed Out', ToastAndroid.SHORT);
+    }
   };
   return (
     <DrawerContentScrollView {...props}>
