@@ -42,6 +42,10 @@ export const authTheme = createTheme({
         color: defaultColors.lightestGrey,
       },
     },
+    errorStyle: {
+      color: defaultColors.danger,
+      fontSize: 13,
+    },
   },
   Button: {
     buttonStyle: {
