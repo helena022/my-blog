@@ -1,21 +1,25 @@
 import * as React from 'react';
 import { supabase } from '../api/supabase';
-import { Text, ToastAndroid, View } from 'react-native';
+import { Text, ToastAndroid, View, SafeAreaView } from 'react-native';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItemList,
-  DrawerItem,
 } from '@react-navigation/drawer';
+import { Avatar, Button } from '@rneui/themed';
 import HomeScreen from '../screens/HomeScreen';
 import MyBlogScreen from '../screens/MyBlogScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import { drawer } from '../styles/drawer';
 
 // TODO props interface for drawer
 
 function CustomDrawerContent(props) {
   const navigation = useNavigation();
-  const LogoutUser = async () => {
+  const user = supabase.auth.user();
+
+  const Logout = async () => {
     navigation.dispatch(DrawerActions.closeDrawer());
     try {
       const { error } = await supabase.auth.signOut();
@@ -27,24 +31,23 @@ function CustomDrawerContent(props) {
       ToastAndroid.show('Signed Out', ToastAndroid.SHORT);
     }
   };
+
   return (
-    <DrawerContentScrollView {...props}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <DrawerContentScrollView {...props}>
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
       <View>
-        <Text style={{ color: 'black' }}>User Info</Text>
+        <Button title="Sign Out" type="clear" onPress={Logout} />
       </View>
-      <DrawerItemList {...props} />
-      <DrawerItem
-        label="Close drawer"
-        onPress={() => navigation.dispatch(DrawerActions.closeDrawer())}
-      />
-      <DrawerItem label="LOG OUT" onPress={LogoutUser} />
-    </DrawerContentScrollView>
+    </SafeAreaView>
   );
 }
 
 export type DrawerParams = {
   HomeScreen: undefined;
   MyBlogScreen: undefined;
+  SettingsScreen: undefined;
 };
 
 const Drawer = createDrawerNavigator<DrawerParams>();
@@ -57,6 +60,7 @@ function DrawerNavigation() {
     >
       <Drawer.Screen name="HomeScreen" component={HomeScreen} />
       <Drawer.Screen name="MyBlogScreen" component={MyBlogScreen} />
+      <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
     </Drawer.Navigator>
   );
 }
