@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
+import { supabase } from '../api/supabase';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParams } from '../navigation/AuthStack';
 import { hasValue, isEmailValid } from '../utils/validations';
 import { ImageBackground, SafeAreaView, View, TouchableOpacity } from 'react-native';
-import { Button, Text, Input } from '@rneui/themed';
+import { Button, Text, Input, Dialog } from '@rneui/themed';
 import { auth } from '../styles/auth';
 
 const backgroundImage = '../assets/images/auth_background.jpg';
@@ -15,6 +16,10 @@ const errors = {
 };
 
 const SignInScreen = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(false);
+  const [dialogErrorMessage, setDialogErrorMessage] = useState('');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -40,15 +45,24 @@ const SignInScreen = () => {
     setPassword(input);
   };
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     isEmailInputValid();
     isPasswordInputValid();
 
     const isFormValid: boolean = isEmailInputValid() && isPasswordInputValid();
+
     if (isFormValid) {
-      console.log('valid sign in');
-    } else {
-      console.log('invalid sign in');
+      try {
+        setIsLoading(true);
+        const { error } = await supabase.auth.signIn({ email, password });
+        if (error) throw error;
+      } catch (error) {
+        setPassword('');
+        setIsErrorDialogVisible(true);
+        setDialogErrorMessage(error.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -99,10 +113,21 @@ const SignInScreen = () => {
               errorMessage={passwordErrorMessage}
               onChangeText={(input) => handlePasswordChange(input)}
             />
-            <Button title={'Sign In'} onPress={handleSignIn} />
+            <Button title={'Sign In'} onPress={handleSignIn} loading={isLoading} />
             <TouchableOpacity style={auth.passwordResetLinkContainer}>
               <Text style={auth.passwordResetLink}>Forgot password?</Text>
             </TouchableOpacity>
+            <Dialog isVisible={isErrorDialogVisible}>
+              <Dialog.Title title="Error Signing In" titleStyle={auth.dialogTitle} />
+              <Text style={auth.dialogText}>{dialogErrorMessage}</Text>
+              <Dialog.Actions>
+                <Dialog.Button
+                  title="Ok"
+                  titleStyle={auth.dialogButton}
+                  onPress={() => setIsErrorDialogVisible(false)}
+                />
+              </Dialog.Actions>
+            </Dialog>
           </View>
           <View style={auth.authNavContainer}>
             <TouchableOpacity onPress={goToSignUp}>
