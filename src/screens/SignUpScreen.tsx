@@ -82,6 +82,7 @@ const SignUpScreen = () => {
         setDialogErrorMessage(error.message);
       } finally {
         setIsLoading(false);
+        navigation.navigate('SignInScreen');
       }
     }
   };
