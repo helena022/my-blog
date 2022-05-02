@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
+import { supabase } from '../api/supabase';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParams } from '../navigation/AuthStack';
 import { SafeAreaView, View, TouchableOpacity, ImageBackground } from 'react-native';
 import { Button, Input, Text, Dialog } from '@rneui/themed';
-import { supabase } from '../api/supabase';
 import {
   hasValue,
   isEmailValid,
@@ -29,7 +29,6 @@ const SignUpScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(false);
   const [dialogErrorMessage, setDialogErrorMessage] = useState('');
-  console.log(dialogErrorMessage);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -70,9 +69,9 @@ const SignUpScreen = () => {
     isPasswordInputValid();
     isRepPasswordInputValid();
 
-    const isFormValid = true;
-    // TODO remove hardcoded value
-    //isEmailInputValid() && isPasswordInputValid() && isRepPasswordInputValid();
+    const isFormValid: boolean =
+      isEmailInputValid() && isPasswordInputValid() && isRepPasswordInputValid();
+
     if (isFormValid) {
       try {
         setIsLoading(true);
@@ -164,7 +163,7 @@ const SignUpScreen = () => {
             </View>
             <Button title={'Sign Up'} onPress={handleSignUp} loading={isLoading} />
             <Dialog isVisible={isErrorDialogVisible}>
-              <Dialog.Title title="Error" titleStyle={auth.dialogTitle} />
+              <Dialog.Title title="Error Signing Up" titleStyle={auth.dialogTitle} />
               <Text style={auth.dialogText}>{dialogErrorMessage}</Text>
               <Dialog.Actions>
                 <Dialog.Button
