@@ -1,24 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { supabase } from '../api/supabase';
+import { useAuth } from '../contexts/AuthContext';
 import DrawerNavigation from './DrawerNavigation';
 import { AuthScreenStack } from './AuthStack';
 
 function Routes() {
-  const [session, setSession] = useState(null);
-
-  useEffect(() => {
-    setSession(supabase.auth.session());
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
-
+  const { user } = useAuth();
   return (
-    <NavigationContainer>
-      {!session ? <AuthScreenStack /> : <DrawerNavigation />}
-    </NavigationContainer>
+    <NavigationContainer>{!user ? <AuthScreenStack /> : <DrawerNavigation />}</NavigationContainer>
   );
 }
 
