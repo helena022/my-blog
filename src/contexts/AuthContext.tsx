@@ -6,10 +6,9 @@ const AuthContext = React.createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
+  const session = supabase.auth.session();
 
   useEffect(() => {
-    const session = supabase.auth.session();
-
     setUser(session?.user ?? null);
     setLoading(false);
 
@@ -28,6 +27,7 @@ export function AuthProvider({ children }) {
     signIn: (data) => supabase.auth.signIn(data),
     signOut: () => supabase.auth.signOut(),
     user,
+    session,
   };
 
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
