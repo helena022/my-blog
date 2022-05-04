@@ -9,6 +9,7 @@ import {
 } from '@react-navigation/drawer';
 import { Avatar, Button } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useAuth } from '../contexts/AuthContext';
 import HomeScreen from '../screens/HomeScreen';
 import MyBlogScreen from '../screens/MyBlogScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -19,7 +20,7 @@ import { drawer } from '../styles/drawer';
 
 function CustomDrawerContent(props) {
   const navigation = useNavigation();
-  const user = supabase.auth.user();
+  const { user } = useAuth();
 
   const Logout = async () => {
     navigation.dispatch(DrawerActions.closeDrawer());
