@@ -4,6 +4,7 @@ export const defaultColors = {
   white: '#FFF',
   lightestGrey: '#EEEEEE',
   lightGrey: '#BEBEBE',
-  black: '#222831',
+  grey: '#6e7787',
   darkGrey: '#393E46',
+  black: '#222831',
 };
