@@ -4,7 +4,17 @@ import { Icon, Input } from '@rneui/themed';
 import { defaultColors } from '../utils/colors';
 import { textInput } from './styles/textInputField';
 
-// TODO props type
+interface TextInputFieldProps {
+  fieldName: string;
+  label: string;
+  placeholder: string;
+  labelValue: string;
+  inputValue: string;
+  setInputValue(input: string): void;
+  error: string;
+  clearErrors(fieldName: string): void;
+  saveChanges(): void;
+}
 
 function TextInputField({
   fieldName,
@@ -16,10 +26,10 @@ function TextInputField({
   error,
   clearErrors,
   saveChanges,
-}) {
+}: TextInputFieldProps) {
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleInputChange = (input) => {
+  const handleInputChange = (input: string) => {
     clearErrors(fieldName);
     setInputValue(input);
   };
