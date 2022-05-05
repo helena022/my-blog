@@ -80,7 +80,6 @@ const SettingsScreen = () => {
   };
 
   const updateWebsiteURL = async () => {
-    console.log(isURLValid(websiteInput));
     validateWebsiteURL();
     const isWebsiteURLValid = validateWebsiteURL();
     if (!isWebsiteURLValid) return;
@@ -147,11 +146,7 @@ const SettingsScreen = () => {
         rounded
         size={120}
         // TODO add user avatar
-        source={
-          true
-            ? { uri: 'https://cdn.pixabay.com/photo/2019/11/03/20/11/portrait-4599553__340.jpg' }
-            : {}
-        }
+        source={avatar_url ? { uri: avatar_url } : {}}
         icon={{ type: 'material', name: 'person' }}
         containerStyle={{ backgroundColor: 'grey' }}
       />
