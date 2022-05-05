@@ -1,7 +1,7 @@
 export const hasValue = (value: string | number): boolean => value !== '';
 
 export const isBetween = (length: number, min: number, max: number): boolean =>
-  length < min || length > max;
+  length >= min && length <= max;
 
 export const isEmailValid = (email: string): boolean => {
   const re =
@@ -19,4 +19,9 @@ export const valuesMatch = (
   repeatedValue: string | number | boolean,
 ): boolean => {
   return value === repeatedValue;
+};
+
+export const alphanumericCharsOnly = (value: string): boolean => {
+  const re = /^[A-Za-z0-9]+$/;
+  return re.test(value);
 };
