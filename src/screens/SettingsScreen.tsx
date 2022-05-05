@@ -136,6 +136,9 @@ const SettingsScreen = () => {
     if (fieldName === 'username') {
       setInputErrors({ ...inputErrors, username: '' });
     }
+    if (fieldName === 'website') {
+      setInputErrors({ ...inputErrors, website: '' });
+    }
   };
 
   const renderUserInfo = ({ avatar_url, username }: { avatar_url: string; username: string }) => (
