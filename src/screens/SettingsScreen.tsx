@@ -3,6 +3,7 @@ import { supabase } from '../api/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { ScrollView, View, Text, ActivityIndicator, Alert } from 'react-native';
 import { Input, Button, Avatar, Icon } from '@rneui/themed';
+import { alphanumericCharsOnly, hasValue, isBetween } from '../utils/validations';
 import TextInputField from '../components/TextInputField';
 import { settings } from '../styles/settings';
 
@@ -13,14 +14,24 @@ interface UserData {
   bio: string;
 }
 
+const errorMessages = {
+  isRequired: 'This field is required',
+  alphanumericCharsOnly: 'Username can only contain alphanumeric characters',
+  usernameCharLimit: 'Username must be between 3 and 16 characters',
+};
+
 const SettingsScreen = () => {
-  const { session, user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const { session, user } = useAuth();
   const [userData, setUserData] = useState(null);
 
-  const [usernameInput, setUsernameInput] = useState({ username: '' });
+  const [inputErrors, setInputErrors] = useState({
+    username: '',
+    website: '',
+    bio: '',
+  });
 
-  console.log(usernameInput);
+  const [usernameInput, setUsernameInput] = useState('');
 
   useEffect(() => {
     getProfile();
@@ -39,7 +50,6 @@ const SettingsScreen = () => {
       }
       if (data) {
         setUserData(data);
-        console.log('data: ', data);
       }
     } catch (error) {
       // TODO error handling
@@ -50,6 +60,9 @@ const SettingsScreen = () => {
   };
 
   const updateUsername = async () => {
+    validateUsername();
+    const isUsernameValid = validateUsername();
+    if (!isUsernameValid) return;
     try {
       const updates = {
         id: user.id,
@@ -65,31 +78,32 @@ const SettingsScreen = () => {
     } catch (error) {
       alert(error.message);
     } finally {
-      console.log('done');
+      setUsernameInput('');
+      getProfile();
     }
   };
 
-  // const updateProfilee = async () => {
-  //   try {
-  //     setIsSubmitting(true);
-  //     const updates = {
-  //       id: user.id,
-  //       username,
-  //       //website,
-  //       updated_at: new Date(),
-  //     };
-  //     const { error } = await supabase.from('profiles').upsert(updates, {
-  //       returning: 'minimal',
-  //     });
-  //     if (error) {
-  //       throw error;
-  //     }
-  //   } catch (error) {
-  //     alert(error.message);
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
+  const validateUsername = () => {
+    console.log('usernameInput', isBetween(usernameInput.length, 2, 16));
+    let isValid = false;
+    if (!hasValue(usernameInput)) {
+      setInputErrors({ ...inputErrors, username: errorMessages.isRequired });
+    } else if (!alphanumericCharsOnly(usernameInput)) {
+      setInputErrors({ ...inputErrors, username: errorMessages.alphanumericCharsOnly });
+    } else if (!isBetween(usernameInput.length, 3, 16)) {
+      setInputErrors({ ...inputErrors, username: errorMessages.usernameCharLimit });
+    } else {
+      setInputErrors({ ...inputErrors, username: '' });
+      isValid = true;
+    }
+    return isValid;
+  };
+
+  const clearErrors = (fieldName: string): void => {
+    if (fieldName === 'username') {
+      setInputErrors({ ...inputErrors, username: '' });
+    }
+  };
 
   const renderUserInfo = ({ avatar_url, username }: { avatar_url: string; username: string }) => (
     <View style={settings.userInfoContainer}>
@@ -121,14 +135,16 @@ const SettingsScreen = () => {
       <ScrollView>
         <View style={settings.settingsContainer}>
           {renderUserInfo(userData)}
-          {console.log(usernameInput)}
           <View style={settings.userDataContainer}>
             <TextInputField
+              fieldName="username"
               label="Username"
               labelValue={userData.username}
               inputValue={usernameInput}
               setInputValue={setUsernameInput}
               saveChanges={updateUsername}
+              error={inputErrors.username}
+              clearErrors={clearErrors}
             />
             {/* <TextInputField label="Website" labelValue={userData.website} />
             <TextInputField label="Bio" labelValue={userData.bio} /> */}

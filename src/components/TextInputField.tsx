@@ -6,12 +6,31 @@ import { textInput } from './styles/textInputField';
 
 // TODO props type
 
-function TextInputField({ label, labelValue, inputValue, setInputValue }) {
+function TextInputField({
+  fieldName,
+  label,
+  labelValue,
+  inputValue,
+  setInputValue,
+  error,
+  clearErrors,
+  saveChanges,
+}) {
   const [isEditing, setIsEditing] = useState(false);
+
+  const handleInputChange = (input) => {
+    clearErrors(fieldName);
+    setInputValue(input);
+  };
 
   const stopEditing = () => {
     setIsEditing(false);
     setInputValue('');
+  };
+
+  const save = () => {
+    console.log(error);
+    saveChanges();
   };
 
   return (
@@ -24,10 +43,11 @@ function TextInputField({ label, labelValue, inputValue, setInputValue }) {
             placeholderTextColor={defaultColors.grey}
             containerStyle={{ paddingHorizontal: 0 }}
             inputStyle={{ fontSize: 17 }}
-            onChangeText={(value) => setInputValue(value)}
+            onChangeText={(value) => handleInputChange(value)}
+            errorMessage={error}
           />
           <View style={textInput.btnContainer}>
-            <TouchableOpacity style={textInput.btn}>
+            <TouchableOpacity onPress={save} style={textInput.btn}>
               <Icon
                 name="check-circle"
                 size={20}
