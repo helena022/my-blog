@@ -40,6 +40,7 @@ function TextInputField({
             inputStyle={{ fontSize: 17 }}
             onChangeText={(value) => handleInputChange(value)}
             errorMessage={error}
+            errorStyle={textInput.errorMessage}
           />
           <View style={textInput.btnContainer}>
             <TouchableOpacity onPress={saveChanges} style={textInput.btn}>

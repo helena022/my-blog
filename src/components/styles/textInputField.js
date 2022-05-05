@@ -31,4 +31,9 @@ export const textInput = StyleSheet.create({
   },
   save: { fontSize: 15, color: defaultColors.primary, textTransform: 'uppercase' },
   cancel: { fontSize: 15, color: defaultColors.danger, textTransform: 'uppercase' },
+  errorMessage: {
+    color: defaultColors.danger,
+    fontSize: 13,
+    marginBottom: 5,
+  },
 });
