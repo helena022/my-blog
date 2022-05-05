@@ -23,8 +23,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   const value = {
-    signUp: (data) => supabase.auth.signUp(data),
-    signIn: (data) => supabase.auth.signIn(data),
+    signUp: (data: object) => supabase.auth.signUp(data),
+    signIn: (data: object) => supabase.auth.signIn(data),
     signOut: () => supabase.auth.signOut(),
     user,
     session,
