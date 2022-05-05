@@ -3,7 +3,7 @@ import { supabase } from '../api/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { ScrollView, View, Text, ActivityIndicator, Alert } from 'react-native';
 import { Input, Button, Avatar, Icon } from '@rneui/themed';
-import { alphanumericCharsOnly, hasValue, isBetween } from '../utils/validations';
+import { alphanumericCharsOnly, hasValue, isBetween, isURLValid } from '../utils/validations';
 import { errorMessages } from '../utils/errorMessages';
 import TextInputField from '../components/TextInputField';
 import { settings } from '../styles/settings';
@@ -27,6 +27,7 @@ const SettingsScreen = () => {
   });
 
   const [usernameInput, setUsernameInput] = useState('');
+  const [websiteInput, setWebsiteInput] = useState('');
 
   useEffect(() => {
     getProfile();
@@ -76,6 +77,44 @@ const SettingsScreen = () => {
       setUsernameInput('');
       getProfile();
     }
+  };
+
+  const updateWebsiteURL = async () => {
+    console.log(isURLValid(websiteInput));
+    validateWebsiteURL();
+    const isWebsiteURLValid = validateWebsiteURL();
+    if (!isWebsiteURLValid) return;
+    try {
+      const updates = {
+        id: user.id,
+        website: websiteInput,
+        updated_at: new Date(),
+      };
+      const { error } = await supabase.from('profiles').upsert(updates, {
+        returning: 'minimal',
+      });
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setWebsiteInput('');
+      getProfile();
+    }
+  };
+
+  const validateWebsiteURL = () => {
+    let isValid = false;
+    if (!hasValue(websiteInput)) {
+      setInputErrors({ ...inputErrors, website: errorMessages.isRequired });
+    } else if (!isURLValid(websiteInput)) {
+      setInputErrors({ ...inputErrors, website: errorMessages.URLNotValid });
+    } else {
+      setInputErrors({ ...inputErrors, website: '' });
+      isValid = true;
+    }
+    return isValid;
   };
 
   const validateUsername = () => {
@@ -140,8 +179,17 @@ const SettingsScreen = () => {
               error={inputErrors.username}
               clearErrors={clearErrors}
             />
-            {/* <TextInputField label="Website" labelValue={userData.website} />
-            <TextInputField label="Bio" labelValue={userData.bio} /> */}
+            <TextInputField
+              fieldName="website"
+              label="Website"
+              labelValue={userData.website}
+              inputValue={websiteInput}
+              setInputValue={setWebsiteInput}
+              saveChanges={updateWebsiteURL}
+              error={inputErrors.website}
+              clearErrors={clearErrors}
+            />
+            {/* <TextInputField label="Bio" labelValue={userData.bio} /> */}
           </View>
         </View>
       </ScrollView>
