@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../api/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { View, Text, ActivityIndicator } from 'react-native';
-import { Input, Button, Avatar } from '@rneui/themed';
+import { ScrollView, View, Text, ActivityIndicator, Alert } from 'react-native';
+import { Input, Button, Avatar, Icon } from '@rneui/themed';
+import TextInputField from '../components/TextInputField';
 import { settings } from '../styles/settings';
 
 interface UserData {
@@ -17,7 +18,9 @@ const SettingsScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState(null);
 
-  const [username, setUsername] = useState('');
+  const [usernameInput, setUsernameInput] = useState({ username: '' });
+
+  console.log(usernameInput);
 
   useEffect(() => {
     getProfile();
@@ -46,13 +49,11 @@ const SettingsScreen = () => {
     }
   };
 
-  const updateProfile = async () => {
+  const updateUsername = async () => {
     try {
-      setIsSubmitting(true);
       const updates = {
         id: user.id,
-        username,
-        //website,
+        username: usernameInput,
         updated_at: new Date(),
       };
       const { error } = await supabase.from('profiles').upsert(updates, {
@@ -64,9 +65,31 @@ const SettingsScreen = () => {
     } catch (error) {
       alert(error.message);
     } finally {
-      setIsSubmitting(false);
+      console.log('done');
     }
   };
+
+  // const updateProfilee = async () => {
+  //   try {
+  //     setIsSubmitting(true);
+  //     const updates = {
+  //       id: user.id,
+  //       username,
+  //       //website,
+  //       updated_at: new Date(),
+  //     };
+  //     const { error } = await supabase.from('profiles').upsert(updates, {
+  //       returning: 'minimal',
+  //     });
+  //     if (error) {
+  //       throw error;
+  //     }
+  //   } catch (error) {
+  //     alert(error.message);
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
 
   const renderUserInfo = ({ avatar_url, username }: { avatar_url: string; username: string }) => (
     <View style={settings.userInfoContainer}>
@@ -74,7 +97,11 @@ const SettingsScreen = () => {
         rounded
         size={100}
         // TODO add user avatar
-        source={avatar_url ? { uri: avatar_url } : {}}
+        source={
+          true
+            ? { uri: 'https://cdn.pixabay.com/photo/2019/11/03/20/11/portrait-4599553__340.jpg' }
+            : {}
+        }
         icon={{ type: 'material', name: 'person' }}
         containerStyle={{ backgroundColor: 'grey' }}
       />
@@ -91,17 +118,23 @@ const SettingsScreen = () => {
     </View>
   ) : (
     userData && (
-      <View style={settings.settingsContainer}>
-        {renderUserInfo(userData)}
-        {/* <Input
-        value={username}
-        //leftIcon={{ type: 'material', name: 'lock-outline' }}
-        placeholder="Username"
-        autoComplete="password"
-        onChangeText={(input) => setUsername(input)}
-      /> */}
-        {/* <Button title={'Save'} onPress={updateProfile} loading={isSubmitting} /> */}
-      </View>
+      <ScrollView>
+        <View style={settings.settingsContainer}>
+          {renderUserInfo(userData)}
+          {console.log(usernameInput)}
+          <View style={settings.userDataContainer}>
+            <TextInputField
+              label="Username"
+              labelValue={userData.username}
+              inputValue={usernameInput}
+              setInputValue={setUsernameInput}
+              saveChanges={updateUsername}
+            />
+            {/* <TextInputField label="Website" labelValue={userData.website} />
+            <TextInputField label="Bio" labelValue={userData.bio} /> */}
+          </View>
+        </View>
+      </ScrollView>
     )
   );
 };

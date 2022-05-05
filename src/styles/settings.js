@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { defaultColors } from '../utils/colors';
 
 export const settings = StyleSheet.create({
+  // User Info Style
   settingsContainer: {
     margin: 15,
     borderRadius: 10,
@@ -12,13 +13,13 @@ export const settings = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'center',
     alignItems: 'center',
-    width: '90%',
+    width: '100%',
     borderBottomWidth: 1,
-    borderBottomColor: defaultColors.lightestGrey,
+    borderBottomColor: defaultColors.lightGrey,
   },
   usernameContainer: {
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 30,
     alignItems: 'center',
   },
   usernameText: {
