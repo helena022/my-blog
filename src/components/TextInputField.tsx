@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon, Input } from '@rneui/themed';
 import { defaultColors } from '../utils/colors';
@@ -9,6 +9,7 @@ import { textInput } from './styles/textInputField';
 function TextInputField({
   fieldName,
   label,
+  placeholder,
   labelValue,
   inputValue,
   setInputValue,
@@ -34,7 +35,7 @@ function TextInputField({
         <View>
           <Input
             value={inputValue}
-            placeholder={label}
+            placeholder={placeholder}
             placeholderTextColor={defaultColors.grey}
             containerStyle={{ paddingHorizontal: 0 }}
             inputStyle={{ fontSize: 17 }}

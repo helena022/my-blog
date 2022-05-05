@@ -172,6 +172,7 @@ const SettingsScreen = () => {
             <TextInputField
               fieldName="username"
               label="Username"
+              placeholder="Set A New Username"
               labelValue={userData.username}
               inputValue={usernameInput}
               setInputValue={setUsernameInput}
@@ -182,6 +183,7 @@ const SettingsScreen = () => {
             <TextInputField
               fieldName="website"
               label="Website"
+              placeholder="Set A New Website URL"
               labelValue={userData.website}
               inputValue={websiteInput}
               setInputValue={setWebsiteInput}
