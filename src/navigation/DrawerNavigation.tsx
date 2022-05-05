@@ -28,7 +28,7 @@ function CustomDrawerContent(props) {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
     } catch (error) {
-      console.log(error);
+      alert(error);
     } finally {
       // TODO toast for ios
       ToastAndroid.show('Signed Out', ToastAndroid.SHORT);
