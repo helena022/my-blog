@@ -145,7 +145,7 @@ const SettingsScreen = () => {
     <View style={settings.userInfoContainer}>
       <Avatar
         rounded
-        size={100}
+        size={120}
         // TODO add user avatar
         source={
           true
