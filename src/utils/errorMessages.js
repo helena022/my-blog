@@ -7,4 +7,5 @@ export const errorMessages = {
   passwordNotSecure:
     'Password must contain at least 1 lowercase character, 1 uppercase character, 1 number and 1 special character (!@#$%^&*)',
   passwordsDontMatch: 'Passwords must match',
+  URLNotValid: 'URL must be valid',
 };
