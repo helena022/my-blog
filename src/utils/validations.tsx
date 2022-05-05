@@ -9,6 +9,12 @@ export const isEmailValid = (email: string): boolean => {
   return re.test(email);
 };
 
+export const isURLValid = (URL: string): boolean => {
+  const re =
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+  return re.test(URL);
+};
+
 export const isPasswordSecure = (password: string): boolean => {
   const re = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})');
   return re.test(password);
