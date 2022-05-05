@@ -54,7 +54,13 @@ function CustomDrawerContent(props) {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View style={drawer.signOutBtnContainer}>
-        <Button title="Sign Out" type="clear" titleStyle={drawer.signOutBtn} onPress={Logout} />
+        <Button
+          title="Sign Out"
+          type="clear"
+          icon={{ name: 'logout', type: 'material', size: 20, color: defaultColors.primary }}
+          titleStyle={drawer.signOutBtn}
+          onPress={Logout}
+        />
       </View>
     </View>
   );
