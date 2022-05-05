@@ -12,18 +12,10 @@ import {
   isPasswordSecure,
   valuesMatch,
 } from '../utils/validations';
+import { errorMessages } from '../utils/errorMessages';
 import { auth } from '../styles/auth';
 
 const backgroundImage = '../assets/images/auth_background.jpg';
-
-const errors = {
-  isRequired: 'This field is required',
-  invalidEmail: 'Email must be valid',
-  passwordTooShort: 'Password must contain at least 8 characters',
-  passwordNotSecure:
-    'Password must contain at least 1 lowercase character, 1 uppercase character, 1 number and 1 special character (!@#$%^&*)',
-  passwordsDontMatch: 'Passwords must match',
-};
 
 const SignUpScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -90,9 +82,9 @@ const SignUpScreen = () => {
   const isEmailInputValid = (): boolean => {
     let isValid = false;
     if (!hasValue(email)) {
-      setEmailErrorMessage(errors.isRequired);
+      setEmailErrorMessage(errorMessages.isRequired);
     } else if (!isEmailValid(email)) {
-      setEmailErrorMessage(errors.invalidEmail);
+      setEmailErrorMessage(errorMessages.invalidEmail);
     } else {
       setEmailErrorMessage('');
       isValid = true;
@@ -103,11 +95,11 @@ const SignUpScreen = () => {
   const isPasswordInputValid = (): boolean => {
     let isValid = false;
     if (!hasValue(password)) {
-      setPasswordErrorMessage(errors.isRequired);
+      setPasswordErrorMessage(errorMessages.isRequired);
     } else if (!isBetween(password.length, 1, 8)) {
-      setPasswordErrorMessage(errors.passwordTooShort);
+      setPasswordErrorMessage(errorMessages.passwordTooShort);
     } else if (!isPasswordSecure(password)) {
-      setPasswordErrorMessage(errors.passwordNotSecure);
+      setPasswordErrorMessage(errorMessages.passwordNotSecure);
     } else {
       setPasswordErrorMessage('');
       isValid = true;
@@ -118,9 +110,9 @@ const SignUpScreen = () => {
   const isRepPasswordInputValid = (): boolean => {
     let isValid = false;
     if (!hasValue(password)) {
-      setRepPasswordErrorMessage(errors.isRequired);
+      setRepPasswordErrorMessage(errorMessages.isRequired);
     } else if (!valuesMatch(password, repeatedPassword)) {
-      setRepPasswordErrorMessage(errors.passwordsDontMatch);
+      setRepPasswordErrorMessage(errorMessages.passwordsDontMatch);
     } else {
       setRepPasswordErrorMessage('');
       isValid = true;

@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { ScrollView, View, Text, ActivityIndicator, Alert } from 'react-native';
 import { Input, Button, Avatar, Icon } from '@rneui/themed';
 import { alphanumericCharsOnly, hasValue, isBetween } from '../utils/validations';
+import { errorMessages } from '../utils/errorMessages';
 import TextInputField from '../components/TextInputField';
 import { settings } from '../styles/settings';
 
@@ -13,12 +14,6 @@ interface UserData {
   website: string;
   bio: string;
 }
-
-const errorMessages = {
-  isRequired: 'This field is required',
-  alphanumericCharsOnly: 'Username can only contain alphanumeric characters',
-  usernameCharLimit: 'Username must be between 3 and 16 characters',
-};
 
 const SettingsScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -84,7 +79,6 @@ const SettingsScreen = () => {
   };
 
   const validateUsername = () => {
-    console.log('usernameInput', isBetween(usernameInput.length, 2, 16));
     let isValid = false;
     if (!hasValue(usernameInput)) {
       setInputErrors({ ...inputErrors, username: errorMessages.isRequired });

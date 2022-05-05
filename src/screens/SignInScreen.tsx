@@ -4,16 +4,12 @@ import { supabase } from '../api/supabase';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParams } from '../navigation/AuthStack';
 import { hasValue, isEmailValid } from '../utils/validations';
+import { errorMessages } from '../utils/errorMessages';
 import { ImageBackground, SafeAreaView, View, TouchableOpacity } from 'react-native';
 import { Button, Text, Input, Dialog } from '@rneui/themed';
 import { auth } from '../styles/auth';
 
 const backgroundImage = '../assets/images/auth_background.jpg';
-
-const errors = {
-  isRequired: 'This field is required',
-  invalidEmail: 'Email must be valid',
-};
 
 const SignInScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -69,9 +65,9 @@ const SignInScreen = () => {
   const isEmailInputValid = (): boolean => {
     let isValid = false;
     if (!hasValue(email)) {
-      setEmailErrorMessage(errors.isRequired);
+      setEmailErrorMessage(errorMessages.isRequired);
     } else if (!isEmailValid(email)) {
-      setEmailErrorMessage(errors.invalidEmail);
+      setEmailErrorMessage(errorMessages.invalidEmail);
     } else {
       setEmailErrorMessage('');
       isValid = true;
@@ -82,7 +78,7 @@ const SignInScreen = () => {
   const isPasswordInputValid = (): boolean => {
     let isValid = false;
     if (!hasValue(password)) {
-      setPasswordErrorMessage(errors.isRequired);
+      setPasswordErrorMessage(errorMessages.isRequired);
     } else {
       setPasswordErrorMessage('');
       isValid = true;
