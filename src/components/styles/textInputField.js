@@ -12,12 +12,16 @@ export const textInput = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  labelContainer: { flexDirection: 'row', flexWrap: 'wrap', maxWidth: '75%' },
+  labelContainer: { flexDirection: 'row', flexWrap: 'wrap', maxWidth: '80%' },
   label: { fontWeight: 'bold', fontSize: 17, marginRight: 5 },
-  labelValue: { fontSize: 17 },
-  editContainer: {
+  labelValue: { fontSize: 17, lineHeight: 21 },
+  editContainerSingleLine: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
+  },
+  editContainerMultiline: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
   edit: { marginRight: 5, color: defaultColors.primary },
   btnContainer: {

@@ -88,7 +88,10 @@ function TextInputField({
             <Text style={textInput.label}>{label}:</Text>
             <Text style={textInput.labelValue}>{labelValue ?? '-'}</Text>
           </View>
-          <TouchableOpacity onPress={() => setIsEditing(true)} style={textInput.editContainer}>
+          <TouchableOpacity
+            onPress={() => setIsEditing(true)}
+            style={multiline ? textInput.editContainerMultiline : textInput.editContainerSingleLine}
+          >
             <Text style={textInput.edit}>Edit</Text>
             <Icon name="edit" size={16} color={defaultColors.primary} />
           </TouchableOpacity>

@@ -30,6 +30,7 @@ const SettingsScreen = () => {
 
   const [usernameInput, setUsernameInput] = useState('');
   const [websiteInput, setWebsiteInput] = useState('');
+  const [bioInput, setBioInput] = useState('');
 
   const updateUsername = async () => {
     validateUsername();
@@ -83,6 +84,32 @@ const SettingsScreen = () => {
     }
   };
 
+  const updateBio = async () => {
+    //validateBio();
+    const isBioValid = validateBio();
+    if (!isBioValid) return;
+    try {
+      setIsLoading(true);
+      const updates = {
+        id: user.id,
+        bio: bioInput,
+        updated_at: new Date(),
+      };
+      const { error } = await supabase.from('profiles').upsert(updates, {
+        returning: 'minimal',
+      });
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setIsLoading(false);
+      setBioInput('');
+      fetchProfile();
+    }
+  };
+
   const validateWebsiteURL = () => {
     let isValid = false;
     if (!hasValue(websiteInput)) {
@@ -111,12 +138,26 @@ const SettingsScreen = () => {
     return isValid;
   };
 
+  const validateBio = () => {
+    let isValid = false;
+    if (!hasValue(bioInput)) {
+      setInputErrors({ ...inputErrors, bio: errorMessages.isRequired });
+    } else {
+      setInputErrors({ ...inputErrors, bio: '' });
+      isValid = true;
+    }
+    return isValid;
+  };
+
   const clearErrors = (fieldName: string): void => {
     if (fieldName === 'username') {
       setInputErrors({ ...inputErrors, username: '' });
     }
     if (fieldName === 'website') {
       setInputErrors({ ...inputErrors, website: '' });
+    }
+    if (fieldName === 'bio') {
+      setInputErrors({ ...inputErrors, bio: '' });
     }
   };
 
@@ -169,7 +210,18 @@ const SettingsScreen = () => {
             error={inputErrors.website}
             clearErrors={clearErrors}
           />
-          {/* <TextInputField label="Bio" labelValue={userData.bio} /> */}
+          <TextInputField
+            fieldName="bio"
+            label="Bio"
+            placeholder="Set A New Bio"
+            labelValue={profileData.bio}
+            multiline={true}
+            inputValue={bioInput}
+            setInputValue={setBioInput}
+            saveChanges={updateBio}
+            error={inputErrors.bio}
+            clearErrors={clearErrors}
+          />
         </View>
       </View>
     </ScrollView>
