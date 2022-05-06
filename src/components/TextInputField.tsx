@@ -42,7 +42,6 @@ function TextInputField({
   };
 
   const save = () => {
-    setIsEditing(false);
     saveChanges();
   };
 
