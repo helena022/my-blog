@@ -39,6 +39,11 @@ function TextInputField({
     setInputValue('');
   };
 
+  const save = () => {
+    setIsEditing(false);
+    saveChanges();
+  };
+
   return (
     <View style={textInput.textInputContainer}>
       {isEditing ? (
@@ -54,7 +59,7 @@ function TextInputField({
             errorStyle={textInput.errorMessage}
           />
           <View style={textInput.btnContainer}>
-            <TouchableOpacity onPress={saveChanges} style={textInput.btn}>
+            <TouchableOpacity onPress={save} style={textInput.btn}>
               <Icon
                 name="check-circle"
                 size={20}
