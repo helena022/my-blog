@@ -150,6 +150,7 @@ const SettingsScreen = () => {
             label="Username"
             placeholder="Set A New Username"
             labelValue={profileData.username}
+            multiline={false}
             inputValue={usernameInput}
             setInputValue={setUsernameInput}
             saveChanges={updateUsername}
@@ -161,6 +162,7 @@ const SettingsScreen = () => {
             label="Website"
             placeholder="Set A New Website URL"
             labelValue={profileData.website}
+            multiline={false}
             inputValue={websiteInput}
             setInputValue={setWebsiteInput}
             saveChanges={updateWebsiteURL}

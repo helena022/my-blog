@@ -9,6 +9,7 @@ interface TextInputFieldProps {
   label: string;
   placeholder: string;
   labelValue: string;
+  multiline: boolean;
   inputValue: string;
   setInputValue(input: string): void;
   error: string;
@@ -21,6 +22,7 @@ function TextInputField({
   label,
   placeholder,
   labelValue,
+  multiline = false,
   inputValue,
   setInputValue,
   error,
@@ -49,6 +51,7 @@ function TextInputField({
       {isEditing ? (
         <View>
           <Input
+            multiline={multiline}
             value={inputValue}
             placeholder={placeholder}
             placeholderTextColor={defaultColors.grey}
