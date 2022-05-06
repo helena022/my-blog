@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../api/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { useProfileContext } from '../contexts/ProfileContext';
 import { ScrollView, View, Text, ActivityIndicator, Alert } from 'react-native';
 import { Input, Button, Avatar, Icon } from '@rneui/themed';
 import { alphanumericCharsOnly, hasValue, isBetween, isURLValid } from '../utils/validations';
@@ -17,8 +18,9 @@ interface UserData {
 
 const SettingsScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
+
   const { session, user } = useAuth();
-  const [userData, setUserData] = useState(null);
+  const { profileData, fetchProfile } = useProfileContext();
 
   const [inputErrors, setInputErrors] = useState({
     username: '',
@@ -29,37 +31,12 @@ const SettingsScreen = () => {
   const [usernameInput, setUsernameInput] = useState('');
   const [websiteInput, setWebsiteInput] = useState('');
 
-  useEffect(() => {
-    getProfile();
-  }, [session]);
-
-  const getProfile = async () => {
-    try {
-      setIsLoading(true);
-      const { data, error, status } = await supabase
-        .from('profiles')
-        .select('username, avatar_url, website, bio')
-        .eq('id', user.id)
-        .single();
-      if (error && status !== 400) {
-        throw error;
-      }
-      if (data) {
-        setUserData(data);
-      }
-    } catch (error) {
-      // TODO error handling
-      alert(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const updateUsername = async () => {
     validateUsername();
     const isUsernameValid = validateUsername();
     if (!isUsernameValid) return;
     try {
+      setIsLoading(true);
       const updates = {
         id: user.id,
         username: usernameInput,
@@ -74,8 +51,9 @@ const SettingsScreen = () => {
     } catch (error) {
       alert(error.message);
     } finally {
+      setIsLoading(false);
       setUsernameInput('');
-      getProfile();
+      fetchProfile();
     }
   };
 
@@ -84,6 +62,7 @@ const SettingsScreen = () => {
     const isWebsiteURLValid = validateWebsiteURL();
     if (!isWebsiteURLValid) return;
     try {
+      setIsLoading(true);
       const updates = {
         id: user.id,
         website: websiteInput,
@@ -98,8 +77,9 @@ const SettingsScreen = () => {
     } catch (error) {
       alert(error.message);
     } finally {
+      setIsLoading(false);
       setWebsiteInput('');
-      getProfile();
+      fetchProfile();
     }
   };
 
@@ -145,13 +125,12 @@ const SettingsScreen = () => {
       <Avatar
         rounded
         size={120}
-        // TODO add user avatar
         source={avatar_url ? { uri: avatar_url } : {}}
         icon={{ type: 'material', name: 'person' }}
         containerStyle={{ backgroundColor: 'grey' }}
       />
       <View style={settings.usernameContainer}>
-        <Text style={settings.usernameText}>{username}</Text>
+        <Text style={settings.usernameText}>{profileData.username}</Text>
         <Text style={settings.emailText}>{user?.email}</Text>
       </View>
     </View>
@@ -162,38 +141,36 @@ const SettingsScreen = () => {
       <ActivityIndicator size="large" />
     </View>
   ) : (
-    userData && (
-      <ScrollView>
-        <View style={settings.settingsContainer}>
-          {renderUserInfo(userData)}
-          <View style={settings.userDataContainer}>
-            <TextInputField
-              fieldName="username"
-              label="Username"
-              placeholder="Set A New Username"
-              labelValue={userData.username}
-              inputValue={usernameInput}
-              setInputValue={setUsernameInput}
-              saveChanges={updateUsername}
-              error={inputErrors.username}
-              clearErrors={clearErrors}
-            />
-            <TextInputField
-              fieldName="website"
-              label="Website"
-              placeholder="Set A New Website URL"
-              labelValue={userData.website}
-              inputValue={websiteInput}
-              setInputValue={setWebsiteInput}
-              saveChanges={updateWebsiteURL}
-              error={inputErrors.website}
-              clearErrors={clearErrors}
-            />
-            {/* <TextInputField label="Bio" labelValue={userData.bio} /> */}
-          </View>
+    <ScrollView>
+      <View style={settings.settingsContainer}>
+        {renderUserInfo(profileData)}
+        <View>
+          <TextInputField
+            fieldName="username"
+            label="Username"
+            placeholder="Set A New Username"
+            labelValue={profileData.username}
+            inputValue={usernameInput}
+            setInputValue={setUsernameInput}
+            saveChanges={updateUsername}
+            error={inputErrors.username}
+            clearErrors={clearErrors}
+          />
+          <TextInputField
+            fieldName="website"
+            label="Website"
+            placeholder="Set A New Website URL"
+            labelValue={profileData.website}
+            inputValue={websiteInput}
+            setInputValue={setWebsiteInput}
+            saveChanges={updateWebsiteURL}
+            error={inputErrors.website}
+            clearErrors={clearErrors}
+          />
+          {/* <TextInputField label="Bio" labelValue={userData.bio} /> */}
         </View>
-      </ScrollView>
-    )
+      </View>
+    </ScrollView>
   );
 };
 
