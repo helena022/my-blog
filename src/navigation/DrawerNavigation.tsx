@@ -10,6 +10,7 @@ import {
 import { Avatar, Button } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useAuth } from '../contexts/AuthContext';
+import { useProfileContext } from '../contexts/ProfileContext';
 import HomeScreen from '../screens/HomeScreen';
 import MyBlogScreen from '../screens/MyBlogScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -21,6 +22,7 @@ import { drawer } from '../styles/drawer';
 function CustomDrawerContent(props) {
   const navigation = useNavigation();
   const { user } = useAuth();
+  const { profileData } = useProfileContext();
 
   const Logout = async () => {
     navigation.dispatch(DrawerActions.closeDrawer());
@@ -42,12 +44,12 @@ function CustomDrawerContent(props) {
           <Avatar
             rounded
             size={64}
+            source={profileData?.avatar_url ? { uri: profileData?.avatar_url } : {}}
             icon={{ type: 'material', name: 'person' }}
             containerStyle={{ backgroundColor: 'grey' }}
           />
           <View style={drawer.userInfo}>
-            {/* TODO fetch username from supabase */}
-            <Text style={drawer.userInfoText}>USERNAME</Text>
+            <Text style={drawer.userInfoText}>{profileData?.username}</Text>
             <Text>{user?.email}</Text>
           </View>
         </View>
