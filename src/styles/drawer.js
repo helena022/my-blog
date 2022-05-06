@@ -15,6 +15,7 @@ export const drawer = StyleSheet.create({
   },
   userInfoText: {
     marginBottom: 3,
+    textTransform: 'uppercase',
   },
   signOutBtnContainer: {
     marginVertical: 30,
