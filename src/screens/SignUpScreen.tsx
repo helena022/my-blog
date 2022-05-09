@@ -11,6 +11,7 @@ import {
   isBetween,
   isPasswordSecure,
   valuesMatch,
+  isLongerThan,
 } from '../utils/validations';
 import { errorMessages } from '../utils/errorMessages';
 import { auth } from '../styles/auth';
@@ -96,7 +97,7 @@ const SignUpScreen = () => {
     let isValid = false;
     if (!hasValue(password)) {
       setPasswordErrorMessage(errorMessages.isRequired);
-    } else if (!isBetween(password.length, 1, 8)) {
+    } else if (!isLongerThan(password.length, 7)) {
       setPasswordErrorMessage(errorMessages.passwordTooShort);
     } else if (!isPasswordSecure(password)) {
       setPasswordErrorMessage(errorMessages.passwordNotSecure);
