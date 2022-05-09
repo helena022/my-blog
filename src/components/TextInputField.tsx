@@ -38,6 +38,7 @@ function TextInputField({
 
   const stopEditing = () => {
     setIsEditing(false);
+    clearErrors(fieldName);
     setInputValue('');
   };
 
