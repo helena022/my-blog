@@ -3,6 +3,8 @@ export const hasValue = (value: string | number): boolean => value !== '';
 export const isBetween = (length: number, min: number, max: number): boolean =>
   length >= min && length <= max;
 
+export const isLongerThan = (length: number, min: number) => length > min;
+
 export const isEmailValid = (email: string): boolean => {
   const re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
