@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../api/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfileContext } from '../contexts/ProfileContext';
-import { ScrollView, View, Text, ActivityIndicator } from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Input, Button, Avatar, Icon } from '@rneui/themed';
 import { alphanumericCharsOnly, hasValue, isBetween, isURLValid } from '../utils/validations';
 import { errorMessages } from '../utils/errorMessages';
 import TextInputField from '../components/TextInputField';
+import { defaultColors } from '../utils/colors';
 import { settings } from '../styles/settings';
 
 interface UserData {
@@ -152,6 +153,10 @@ const SettingsScreen = () => {
 
   const renderUserInfo = () => (
     <View style={settings.userInfoContainer}>
+      <TouchableOpacity onPress={() => {}} style={settings.editContainer}>
+        <Text style={settings.edit}>Edit</Text>
+        <Icon name="edit" size={16} color={defaultColors.primary} />
+      </TouchableOpacity>
       {profileData && profileData.avatar_url ? (
         <Avatar
           rounded

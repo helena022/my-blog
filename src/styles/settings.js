@@ -10,7 +10,6 @@ export const settings = StyleSheet.create({
     backgroundColor: defaultColors.white,
   },
   userInfoContainer: {
-    marginTop: 10,
     alignSelf: 'center',
     alignItems: 'center',
     width: '100%',
@@ -28,5 +27,14 @@ export const settings = StyleSheet.create({
   emailText: {
     color: defaultColors.grey,
     fontSize: 15,
+  },
+  editContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  edit: {
+    color: defaultColors.primary,
+    marginRight: 5,
   },
 });
