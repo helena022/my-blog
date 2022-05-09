@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../api/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfileContext } from '../contexts/ProfileContext';
-import { ScrollView, View, Text, ActivityIndicator, Alert } from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator } from 'react-native';
 import { Input, Button, Avatar, Icon } from '@rneui/themed';
 import { alphanumericCharsOnly, hasValue, isBetween, isURLValid } from '../utils/validations';
 import { errorMessages } from '../utils/errorMessages';
@@ -147,15 +147,7 @@ const SettingsScreen = () => {
   };
 
   const clearErrors = (fieldName: string): void => {
-    if (fieldName === 'username') {
-      setInputErrors({ ...inputErrors, username: '' });
-    }
-    if (fieldName === 'website') {
-      setInputErrors({ ...inputErrors, website: '' });
-    }
-    if (fieldName === 'bio') {
-      setInputErrors({ ...inputErrors, bio: '' });
-    }
+    setInputErrors({ ...inputErrors, [fieldName]: '' });
   };
 
   const renderUserInfo = () => (
