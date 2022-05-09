@@ -41,15 +41,25 @@ function CustomDrawerContent(props) {
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
         <View style={drawer.userInfoContainer}>
-          <Avatar
-            rounded
-            size={64}
-            source={profileData?.avatar_url ? { uri: profileData?.avatar_url } : {}}
-            icon={{ type: 'material', name: 'person' }}
-            containerStyle={{ backgroundColor: 'grey' }}
-          />
+          {profileData && profileData.avatar_url ? (
+            <Avatar
+              rounded
+              size={64}
+              icon={{ type: 'material', name: 'person' }}
+              source={{ uri: profileData.avatar_url }}
+              containerStyle={{ backgroundColor: 'grey' }}
+            />
+          ) : (
+            <Avatar
+              rounded
+              size={64}
+              icon={{ type: 'material', name: 'person' }}
+              containerStyle={{ backgroundColor: 'grey' }}
+            />
+          )}
+
           <View style={drawer.userInfo}>
-            <Text style={drawer.userInfoText}>{profileData?.username}</Text>
+            <Text style={drawer.userInfoText}>{profileData ? profileData.username : '-'}</Text>
             <Text>{user?.email}</Text>
           </View>
         </View>
