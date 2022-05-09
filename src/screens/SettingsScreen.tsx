@@ -33,7 +33,6 @@ const SettingsScreen = () => {
   const [bioInput, setBioInput] = useState('');
 
   const updateUsername = async () => {
-    validateUsername();
     const isUsernameValid = validateUsername();
     if (!isUsernameValid) return;
     try {
@@ -59,7 +58,6 @@ const SettingsScreen = () => {
   };
 
   const updateWebsiteURL = async () => {
-    validateWebsiteURL();
     const isWebsiteURLValid = validateWebsiteURL();
     if (!isWebsiteURLValid) return;
     try {
@@ -85,7 +83,6 @@ const SettingsScreen = () => {
   };
 
   const updateBio = async () => {
-    //validateBio();
     const isBioValid = validateBio();
     if (!isBioValid) return;
     try {
@@ -161,17 +158,27 @@ const SettingsScreen = () => {
     }
   };
 
-  const renderUserInfo = ({ avatar_url, username }: { avatar_url: string; username: string }) => (
+  const renderUserInfo = () => (
     <View style={settings.userInfoContainer}>
-      <Avatar
-        rounded
-        size={120}
-        source={avatar_url ? { uri: avatar_url } : {}}
-        icon={{ type: 'material', name: 'person' }}
-        containerStyle={{ backgroundColor: 'grey' }}
-      />
+      {profileData && profileData.avatar_url ? (
+        <Avatar
+          rounded
+          size={120}
+          icon={{ type: 'material', name: 'person' }}
+          source={{ uri: profileData.avatar_url }}
+          containerStyle={{ backgroundColor: 'grey' }}
+        />
+      ) : (
+        <Avatar
+          rounded
+          size={120}
+          icon={{ type: 'material', name: 'person' }}
+          containerStyle={{ backgroundColor: 'grey' }}
+        />
+      )}
+
       <View style={settings.usernameContainer}>
-        <Text style={settings.usernameText}>{profileData.username}</Text>
+        <Text style={settings.usernameText}>{profileData ? profileData.username : '-'}</Text>
         <Text style={settings.emailText}>{user?.email}</Text>
       </View>
     </View>
@@ -184,13 +191,13 @@ const SettingsScreen = () => {
   ) : (
     <ScrollView>
       <View style={settings.settingsContainer}>
-        {renderUserInfo(profileData)}
+        {renderUserInfo()}
         <View>
           <TextInputField
             fieldName="username"
             label="Username"
             placeholder="Set A New Username"
-            labelValue={profileData.username}
+            labelValue={profileData ? profileData.username : '-'}
             multiline={false}
             inputValue={usernameInput}
             setInputValue={setUsernameInput}
@@ -202,7 +209,7 @@ const SettingsScreen = () => {
             fieldName="website"
             label="Website"
             placeholder="Set A New Website URL"
-            labelValue={profileData.website}
+            labelValue={profileData ? profileData.website : '-'}
             multiline={false}
             inputValue={websiteInput}
             setInputValue={setWebsiteInput}
@@ -214,7 +221,7 @@ const SettingsScreen = () => {
             fieldName="bio"
             label="Bio"
             placeholder="Set A New Bio"
-            labelValue={profileData.bio}
+            labelValue={profileData ? profileData.bio : '-'}
             multiline={true}
             inputValue={bioInput}
             setInputValue={setBioInput}
