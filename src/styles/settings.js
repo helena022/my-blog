@@ -29,6 +29,7 @@ export const settings = StyleSheet.create({
     fontSize: 15,
   },
   editContainer: {
+    marginTop: 3,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'flex-end',
