@@ -8,13 +8,14 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import { Avatar, Button } from '@rneui/themed';
+import { defaultColors } from '../utils/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfileContext } from '../contexts/ProfileContext';
 import HomeScreen from '../screens/HomeScreen';
 import MyBlogScreen from '../screens/MyBlogScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import { defaultColors } from '../utils/colors';
+import PostEditorScreen from '../screens/PostEditorScreen';
 import { drawer } from '../styles/drawer';
 
 // TODO props interface for drawer
@@ -81,6 +82,7 @@ function CustomDrawerContent(props) {
 export type DrawerParams = {
   HomeScreen: undefined;
   MyBlogScreen: undefined;
+  PostEditorScreen: undefined;
   SettingsScreen: undefined;
 };
 
@@ -113,6 +115,14 @@ function DrawerNavigation() {
         options={{
           title: 'My Blog',
           drawerIcon: ({ color }) => <Icon name="book" size={21} color={color} />,
+        }}
+      />
+      <Drawer.Screen
+        name="PostEditorScreen"
+        component={PostEditorScreen}
+        options={{
+          title: 'Post Editor',
+          drawerIcon: ({ color }) => <Icon name="edit" size={21} color={color} />,
         }}
       />
       <Drawer.Screen
