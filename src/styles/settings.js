@@ -38,4 +38,7 @@ export const settings = StyleSheet.create({
     color: defaultColors.primary,
     marginRight: 5,
   },
+  avatarContainer: {
+    alignSelf: 'center',
+  },
 });

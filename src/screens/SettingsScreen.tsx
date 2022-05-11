@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { supabase } from '../api/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { defaultColors } from '../utils/colors';
 import { useProfileContext } from '../contexts/ProfileContext';
-import { ScrollView, View, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
 import { Input, Button, Avatar, Icon } from '@rneui/themed';
 import { alphanumericCharsOnly, hasValue, isBetween, isURLValid } from '../utils/validations';
 import { errorMessages } from '../utils/errorMessages';
 import TextInputField from '../components/TextInputField';
-import { defaultColors } from '../utils/colors';
+import UserAvatar from '../components/UserAvatar';
 import { settings } from '../styles/settings';
 
 interface UserData {
@@ -108,6 +109,26 @@ const SettingsScreen = () => {
     }
   };
 
+  const updateAvatar = async (url) => {
+    try {
+      const updates = {
+        id: user.id,
+        avatar_url: url,
+        updated_at: new Date(),
+      };
+      const { error } = await supabase.from('profiles').upsert(updates, {
+        returning: 'minimal',
+      });
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      fetchProfile();
+    }
+  };
+
   const validateWebsiteURL = () => {
     let isValid = false;
     if (!hasValue(websiteInput)) {
@@ -153,27 +174,7 @@ const SettingsScreen = () => {
 
   const renderUserInfo = () => (
     <View style={settings.userInfoContainer}>
-      <TouchableOpacity onPress={() => {}} style={settings.editContainer}>
-        <Text style={settings.edit}>Edit</Text>
-        <Icon name="edit" size={16} color={defaultColors.primary} />
-      </TouchableOpacity>
-      {profileData && profileData.avatar_url ? (
-        <Avatar
-          rounded
-          size={120}
-          icon={{ type: 'material', name: 'person' }}
-          source={{ uri: profileData.avatar_url }}
-          containerStyle={{ backgroundColor: 'grey' }}
-        />
-      ) : (
-        <Avatar
-          rounded
-          size={120}
-          icon={{ type: 'material', name: 'person' }}
-          containerStyle={{ backgroundColor: 'grey' }}
-        />
-      )}
-
+      <UserAvatar url={profileData ? profileData?.avatar_url : null} updateAvatar={updateAvatar} />
       <View style={settings.usernameContainer}>
         <Text style={settings.usernameText}>{profileData ? profileData.username : '-'}</Text>
         <Text style={settings.emailText}>{user?.email}</Text>
