@@ -63,7 +63,7 @@ export default function UserAvatar({ url, updateAvatar }) {
       if (uploadError) {
         throw uploadError;
       }
-      //updateAvatar(filePath);
+      updateAvatar(filePath);
     } catch (error) {
       alert(error);
     } finally {
