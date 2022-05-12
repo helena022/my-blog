@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { supabase } from '../api/supabase';
-import { Text, ToastAndroid, View } from 'react-native';
+import { Text, ToastAndroid, View, TouchableOpacity } from 'react-native';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import { Avatar, Button } from '@rneui/themed';
+import { Avatar, Button, Icon } from '@rneui/themed';
 import { defaultColors } from '../utils/colors';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useAuth } from '../contexts/AuthContext';
 import { useProfileContext } from '../contexts/ProfileContext';
 import HomeScreen from '../screens/HomeScreen';
@@ -133,6 +132,20 @@ function DrawerNavigation() {
             color: defaultColors.primary,
           },
           drawerIcon: ({ color }) => <Icon name="edit" size={21} color={color} />,
+          headerRight: () => (
+            <View style={drawer.headerIconsContainer}>
+              <TouchableOpacity
+                style={drawer.saveBtnContainer}
+                onPress={() => console.log('pressed')}
+              >
+                <Icon name="save" color={defaultColors.primary} size={18} />
+                <Text style={drawer.saveText}>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => console.log('pressed')}>
+                <Icon name="keyboard-control" color={defaultColors.primary} />
+              </TouchableOpacity>
+            </View>
+          ),
         }}
       />
       <Drawer.Screen
