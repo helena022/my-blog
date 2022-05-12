@@ -93,6 +93,7 @@ function DrawerNavigation() {
     <Drawer.Navigator
       useLegacyImplementation
       screenOptions={{
+        headerTintColor: defaultColors.primary,
         drawerActiveBackgroundColor: defaultColors.lightestGrey,
         drawerActiveTintColor: defaultColors.primary,
         drawerLabelStyle: {
@@ -106,6 +107,9 @@ function DrawerNavigation() {
         component={HomeScreen}
         options={{
           title: 'Home',
+          headerTitleStyle: {
+            color: defaultColors.primary,
+          },
           drawerIcon: ({ color }) => <Icon name="home" size={22} color={color} />,
         }}
       />
@@ -114,6 +118,9 @@ function DrawerNavigation() {
         component={MyBlogScreen}
         options={{
           title: 'My Blog',
+          headerTitleStyle: {
+            color: defaultColors.primary,
+          },
           drawerIcon: ({ color }) => <Icon name="book" size={21} color={color} />,
         }}
       />
@@ -122,6 +129,9 @@ function DrawerNavigation() {
         component={PostEditorScreen}
         options={{
           title: 'Post Editor',
+          headerTitleStyle: {
+            color: defaultColors.primary,
+          },
           drawerIcon: ({ color }) => <Icon name="edit" size={21} color={color} />,
         }}
       />
@@ -130,6 +140,9 @@ function DrawerNavigation() {
         component={SettingsScreen}
         options={{
           title: 'Settings',
+          headerTitleStyle: {
+            color: defaultColors.primary,
+          },
           drawerIcon: ({ color }) => <Icon name="settings" size={22} color={color} />,
         }}
       />
