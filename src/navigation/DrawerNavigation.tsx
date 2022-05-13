@@ -132,20 +132,6 @@ function DrawerNavigation() {
             color: defaultColors.primary,
           },
           drawerIcon: ({ color }) => <Icon name="edit" size={21} color={color} />,
-          headerRight: () => (
-            <View style={drawer.headerIconsContainer}>
-              <TouchableOpacity
-                style={drawer.saveBtnContainer}
-                onPress={() => console.log('pressed')}
-              >
-                <Icon name="save" color={defaultColors.primary} size={18} />
-                <Text style={drawer.saveText}>Save</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => console.log('pressed')}>
-                <Icon name="keyboard-control" color={defaultColors.primary} />
-              </TouchableOpacity>
-            </View>
-          ),
         }}
       />
       <Drawer.Screen
