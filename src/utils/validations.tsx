@@ -1,4 +1,4 @@
-export const hasValue = (value: string | number): boolean => value !== '';
+export const hasValue = (value: string): boolean => value !== '';
 
 export const isBetween = (length: number, min: number, max: number): boolean =>
   length >= min && length <= max;
