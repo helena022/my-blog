@@ -10,7 +10,6 @@ import { errorMessages } from '../utils/errorMessages';
 import { useAuth } from '../contexts/AuthContext';
 import FullScreenSpinner from '../components/FullScreenSpinner';
 import { postEditor } from '../styles/postEditor';
-import { drawer } from '../styles/drawer';
 
 interface Post {
   title: string;
@@ -37,29 +36,29 @@ const PostEditorScreen = () => {
     setContentErrorMsg('');
   };
 
-  const validateTitle = () => {
-    let isValid = false;
-    if (!hasValue(post.title)) {
-      setTitleErrorMsg(errorMessages.isRequired);
-    } else {
-      setTitleErrorMsg('');
-      isValid = true;
-    }
-    return isValid;
-  };
-
-  const validateContent = () => {
-    let isValid = false;
-    if (!hasValue(post.content)) {
-      setContentErrorMsg(errorMessages.isRequired);
-    } else {
-      setContentErrorMsg('');
-      isValid = true;
-    }
-    return isValid;
-  };
-
   React.useLayoutEffect(() => {
+    const validateTitle = () => {
+      let isValid = false;
+      if (!hasValue(post.title)) {
+        setTitleErrorMsg(errorMessages.isRequired);
+      } else {
+        setTitleErrorMsg('');
+        isValid = true;
+      }
+      return isValid;
+    };
+
+    const validateContent = () => {
+      let isValid = false;
+      if (!hasValue(post.content)) {
+        setContentErrorMsg(errorMessages.isRequired);
+      } else {
+        setContentErrorMsg('');
+        isValid = true;
+      }
+      return isValid;
+    };
+
     const createPost = async () => {
       const isTitleValid = validateTitle();
       const isContentValid = validateContent();
@@ -83,10 +82,10 @@ const PostEditorScreen = () => {
 
     navigation.setOptions({
       headerRight: () => (
-        <View style={drawer.headerIconsContainer}>
-          <TouchableOpacity style={drawer.saveBtnContainer} onPress={createPost}>
+        <View style={postEditor.headerIconsContainer}>
+          <TouchableOpacity style={postEditor.saveBtnContainer} onPress={createPost}>
             <Icon name="save" color={defaultColors.primary} size={18} />
-            <Text style={drawer.saveText}>Save</Text>
+            <Text style={postEditor.saveText}>Save</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('additional options')}>
             <Icon name="keyboard-control" color={defaultColors.primary} />
@@ -94,7 +93,7 @@ const PostEditorScreen = () => {
         </View>
       ),
     });
-  }, [navigation, post]);
+  }, [navigation, post, user]);
 
   return (
     <ScrollView contentContainerStyle={postEditor.editorScreenContainer}>

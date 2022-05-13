@@ -21,4 +21,21 @@ export const postEditor = StyleSheet.create({
   contentInputContainer: {
     borderBottomWidth: 0,
   },
+  headerIconsContainer: {
+    marginHorizontal: 15,
+    flexDirection: 'row',
+  },
+  saveBtnContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 15,
+  },
+  saveText: {
+    textTransform: 'uppercase',
+    color: defaultColors.primary,
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginLeft: 4,
+  },
 });
