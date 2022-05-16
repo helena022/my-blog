@@ -4,6 +4,7 @@ import { defaultColors } from '../../utils/colors';
 export const authorInfo = StyleSheet.create({
   authorInfoContainer: {
     paddingBottom: 20,
+    marginBottom: 25,
     borderBottomWidth: 1,
     borderBottomColor: defaultColors.lightGrey,
   },
