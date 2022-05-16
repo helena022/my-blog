@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../api/supabase';
-import { View, Text } from 'react-native';
+import { View, FlatList } from 'react-native';
 import AuthorInfo from './AuthorInfo';
+import BlogPostCard from './BlogPostCard';
+import { blog } from './styles/blog';
 
 interface BlogProps {
   authorId: string;
@@ -51,16 +53,30 @@ const Blog = ({ authorId }: BlogProps) => {
     }
   };
 
+  const renderAuthorInfo = () => (
+    <AuthorInfo
+      avatarUrl={info?.avatar_url}
+      username={info?.username}
+      website={info?.website}
+      bio={info.bio}
+    />
+  );
+
+  const renderPost = ({ item }) => <BlogPostCard title={item.title} content={item.content} />;
+
   // TODO user doesn't have public profile yet error message
   return (
-    info && (
+    info &&
+    posts && (
       <View>
-        <AuthorInfo
-          avatarUrl={info?.avatar_url}
-          username={info?.username}
-          website={info?.website}
-          bio={info.bio}
-        />
+        <View style={blog.postsContainer}>
+          <FlatList
+            data={posts}
+            renderItem={renderPost}
+            keyExtractor={(item) => item.id}
+            ListHeaderComponent={renderAuthorInfo}
+          />
+        </View>
       </View>
     )
   );
