@@ -10,12 +10,12 @@ const MyBlogScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [authorId, setAuthorId] = useState<null | number>(null);
   return (
-    <ScrollView contentContainerStyle={myBlog.screenContainer}>
+    <View style={myBlog.screenContainer}>
       {isLoading && <FullScreenSpinner />}
       <View style={myBlog.blogContainer}>
         <Blog authorId={user.id} />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
