@@ -4,14 +4,12 @@ import { defaultColors } from '../utils/colors';
 export const postEditor = StyleSheet.create({
   editorScreenContainer: {
     flexGrow: 1,
+    backgroundColor: defaultColors.white,
   },
   editorContainer: {
     flex: 1,
-    margin: 15,
-    borderRadius: 10,
     padding: 20,
     marginBottom: 30,
-    backgroundColor: defaultColors.white,
   },
   titleInputContainer: {
     marginTop: 5,
