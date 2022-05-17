@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import { supabase } from '../api/supabase';
 import { View, FlatList } from 'react-native';
 import AuthorInfo from './AuthorInfo';
@@ -10,13 +11,15 @@ interface BlogProps {
 }
 
 const Blog = ({ authorId }: BlogProps) => {
+  const isFocused = useIsFocused();
+
   const [info, setInfo] = useState<null | object>(null);
   const [posts, setPosts] = useState<null | object>(null);
 
   useEffect(() => {
     void fetchAuthorInfo();
     void fetchPosts();
-  }, []);
+  }, [isFocused]);
 
   const fetchAuthorInfo = async () => {
     try {
@@ -39,7 +42,11 @@ const Blog = ({ authorId }: BlogProps) => {
 
   const fetchPosts = async () => {
     try {
-      const { data, error, status } = await supabase.from('posts').select().eq('user_id', authorId);
+      const { data, error, status } = await supabase
+        .from('posts')
+        .select()
+        .order('created_at', { ascending: false })
+        .eq('user_id', authorId);
       if (error && status !== 400) {
         throw error;
       }
