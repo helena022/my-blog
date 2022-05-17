@@ -8,7 +8,7 @@ export const postEditor = StyleSheet.create({
   },
   editorContainer: {
     flex: 1,
-    padding: 20,
+    padding: 10,
     marginBottom: 30,
   },
   titleInputContainer: {
