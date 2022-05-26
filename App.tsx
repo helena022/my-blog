@@ -1,22 +1,15 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AuthProvider } from './src/contexts/AuthContext';
+import Routes from './src/navigation/Routes';
 
-import React from 'react';
-import type {ReactNode} from 'react';
-import {SafeAreaView, StatusBar, Text} from 'react-native';
-
-const App: () => ReactNode = () => {
+export default function App() {
   return (
-    <SafeAreaView>
-      <StatusBar />
-      <Text>My Blog App</Text>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+    </SafeAreaProvider>
   );
-};
-
-export default App;
+}
